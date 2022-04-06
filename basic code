@@ -1,0 +1,125 @@
+#include <iostream>
+#include <string>
+using namespace std;
+
+class watch
+{
+private:
+	int hour;
+	int min;
+	int sec;
+public:
+	watch()
+	{
+		hour = 0;
+		min = 0;
+		sec = 0;
+	}
+	void input();
+	void output();
+	void check();
+	void operator++();
+	void operator--();
+	void operator+=(int);
+	void operator-=(int);
+};
+void watch::input()
+{
+	int temp;
+	cin >> temp;
+	if (temp < 0)
+		hour = temp * -1;
+	else
+		hour = temp;
+	cin >> temp;
+	if (temp < 0)
+		min = temp * -1;
+	else
+		min = temp;
+	cin >> temp;
+	if (temp < 0)
+		sec = temp * -1;
+	else
+		sec = temp;
+}
+void watch::output()
+{
+	check();
+	cout << hour << " " << min << " " << sec;
+}
+void watch::check()
+{
+	if (sec >= 60)
+	{
+		min += sec / 60;
+		sec %= 60;
+	}
+	if (min >= 60)
+	{
+		hour += min / 60;
+		min %= 60;
+	}
+	if (hour >= 24)
+	{
+		hour %= 24;
+	}
+	if (sec < 0)
+	{
+		min += (-1 + sec / 60);
+		sec = (60 + sec % 60);
+	}
+}
+
+void watch::operator++()
+{
+	sec++;
+	check();
+}
+void watch::operator--()
+{
+	sec--;
+	check();
+}
+void watch::operator+=(int obj)
+{
+	watch res;
+	sec += obj;
+	check();
+}
+void watch::operator-=(int obj)
+{
+	watch res;
+	sec -= obj;
+	check();
+}
+int main()
+{
+	watch time1;
+	time1.input();
+	int actions;
+	cin >> actions;
+	string option;
+	do 
+	{
+		cin >> option;
+		if (option == "++")
+			++time1;
+		else if (option == "--")
+			--time1;
+		else if (option == "+")
+		{
+			int temp;
+			cin >> temp;
+			time1 += temp;
+		}
+		else if (option == "-")
+		{
+			int temp;
+			cin >> temp;
+			time1 -= temp;
+		}
+	} while (--actions != 0);
+	time1.output();
+	system("pause");
+	
+}
